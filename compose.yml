@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mariadb:11.2
+    environment:
+      MARIADB_ROOT_PASSWORD: hogefuga
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - 33306:3306
+
+  adminer:
+    image: adminer
+    ports:
+      - 8081:8080
+
+volumes:
+  data:
