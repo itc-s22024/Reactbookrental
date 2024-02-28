@@ -10,13 +10,19 @@ import {cdate} from "cdate"
 
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
-// import bookRouter from "./routes/book.js";
+import bookRouter from "./routes/book.js";
 // import adminRouter from "./routes/admin.js";
 // import rentalRouter from "./routes/rental.js";
 
 import cors from "cors"
 
 const app = express();
+
+BigInt.prototype.toJSON = function () {
+    return this.toString()
+}
+
+
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -53,7 +59,7 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
-// app.use("/book", bookRouter);
+app.use("/book", bookRouter);
 // app.use("/admin", adminRouter);
 // app.use("/rental", rentalRouter);
 
@@ -65,19 +71,19 @@ app.use("/user", usersRouter);
  *
  * @type express.ErrorRequestHandler
  */
-const errorHandler = (err, req, res, next) => {
-  // デフォルトは内部サーバーエラーとしておく。
-  let message = "Internal Server Error";
-  if (err.status === 401) {
-    // ここに来る場合は、未認証によるエラーなのでメッセージを書き換える。
-    message = "NG";
-  } else {
-    // エラーの詳細はクライアントに返さないので、ここで吐き出しておく。
-    console.error(err);
-  }
-  res.status(err.status || 500).json({result:message});
-};
-app.use(errorHandler);
+// const errorHandler = (err, req, res, next) => {
+//   // デフォルトは内部サーバーエラーとしておく。
+//   let message = "Internal Server Error";
+//   if (err.status === 401) {
+//     // ここに来る場合は、未認証によるエラーなのでメッセージを書き換える。
+//     message = "NGkkk";
+//   } else {
+//     // エラーの詳細はクライアントに返さないので、ここで吐き出しておく。
+//     console.error(err);
+//   }
+//   res.status(err.status || 500).json({result:message});
+// };
+// app.use(errorHandler);
 
 // 404
 app.use((req, res, next) => {

@@ -9,28 +9,21 @@ import {Strategy as LocalStrategy} from 'passport-local';
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", (req, res, next) => {
+router.get("/", function (req, res, next) {
   if (!req.user) {
-    // 未ログインなら、Error オブジェクトを作って、ステータスを設定してスロー
-    const err = new Error("unauthenticated");
-    res.status(400).json({
-      message: "NG"
-    });
-    throw err;
+    res.status(401).json({result: "NG"});
+  } else {
+    res.status(201).json({result: "OK", user:req.user, isAdmin: req.user.isAdmin});
   }
-  // ここに来れるなら、ログイン済み。
-  res.json({
-    message: "OK"
-  });
 });
 
 router.post("/login", passport.authenticate("local", {
   failWithError: true // passport によるログインに失敗したらエラーを発生させる
 }), (req, res, next) => {
   // ここに来れるなら、ログインは成功していることになる。
-  const isAdmin = req.user.isAdmin;
+  const {isAdmin} = req.user;
   res.json({
-    message: "OK",
+    result: "OK",
     isAdmin: isAdmin
   });
 });
