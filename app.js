@@ -11,7 +11,7 @@ import {cdate} from "cdate"
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
 import bookRouter from "./routes/book.js";
-// import adminRouter from "./routes/admin.js";
+import adminRouter from "./routes/admin.js";
 // import rentalRouter from "./routes/rental.js";
 
 import cors from "cors"
@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/book", bookRouter);
-// app.use("/admin", adminRouter);
+app.use("/admin", adminRouter);
 // app.use("/rental", rentalRouter);
 
 
